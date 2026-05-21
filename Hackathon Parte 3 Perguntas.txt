@@ -1,0 +1,113 @@
+10 Perguntas para o Hackathon de SQL
+
+1- Quantos clientes estão cadastrados em cada cidade?
+
+SELECT cidade, COUNT(*) AS clientes
+FROM clientes
+GROUP BY cidade
+ORDER BY clientes DESC;
+
+-- Resposta:
+Castanhal	4
+Belém	3
+Santa Isabel	3
+Inhangapi	2
+Benevides	2
+Capanema, 1
+
+2- Qual é a média de idade dos clientes em cada cidade?
+
+SELECT cidade, round( AVG(idade) ) AS media_de_idade
+FROM clientes
+GROUP BY cidade;
+
+-- Resposta:
+Castanhal	19
+Belém	19
+Santa Isabel	18
+Inhangapi	19
+Benevides	19
+Capanema	20
+
+3- Quantos produtos existem em cada categoria? 
+
+
+SELECT categoria, COUNT(*) AS quantidade
+FROM produtos
+GROUP BY categoria
+ORDER BY categoria DESC;
+
+-- Resposta:
+
+Móveis	2
+Informática	6
+Acessórios	7
+
+4- Qual é o preço médio dos produtos em cada categoria?
+
+SELECT categoria, round( AVG(preco) ) AS media_de_preco 
+FROM produtos
+GROUP BY categoria;
+
+-- Resposta:
+
+Informática	1030
+Acessórios	138
+Móveis	700
+
+5- Mostre as categorias com mais de 10 produtos.
+
+SELECT categoria, COUNT(*) AS total_produtos
+FROM produtos
+GROUP BY categoria;
+HAVING COUNT(*) > 5
+
+-- Resposta:
+Informática	6
+Acessórios	7
+Móveis	2
+
+6- Qual é o valor total de estoque em cada categoria (considerando quantidade * preço)?
+
+SELECT categoria, SUM(estoque * preco) AS total
+FROM produtos
+GROUP BY categoria;
+
+-- Resposta:
+
+Informática	56460.00
+Acessórios	21150.00
+Móveis	9200.00
+
+7- Mostre as categorias onde o valor total de estoque é superior a 2.
+
+SELECT categoria, SUM(estoque * preco)  AS total_produtos
+FROM produtos
+GROUP BY categoria
+HAVING SUM(estoque * preco)  > 2;
+
+-- Resposta:
+
+Informática	56460.00
+Acessórios	21150.00
+Móveis	9200.00
+
+8- Quantos clientes foram cadastrados em cada ano?
+
+SELECT YEAR(data_cadastro), COUNT(*) AS clientes
+FROM clientes
+GROUP BY YEAR(data_cadastro);
+
+
+9- Qual é a quantidade média de estoque por categoria, considerando apenas categorias com estoque médio acima de 20 unidades?
+
+SELECT categoria, AVG(estoque) AS estoque_medio
+FROM produtos
+GROUP BY categoria
+HAVING SUM(estoque * preco)  > 20;
+
+10- Mostre a quantidade mínima e máxima de estoque de produtos por categoria.
+
+SELECT categoria, MIN(estoque) AS estoque_minimo, MAX(estoque) AS estoque_maximo
+FROM produtos
+GROUP BY categoria;
